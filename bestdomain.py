@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # 示例URL和子域名对应的IP列表
     subdomain_ip_mapping = {
         'bestcf': 'https://ipdb.030101.xyz/api/bestcf.txt',  # #域名一，bestcf.域名.com
-        'api': 'https://raw.githubusercontent.com/yd072/youxuanyuming/refs/heads/main/ip.txt', #域名二，api.域名.com
+        'api': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/ip.txt', #域名二，api.域名.com
         # 添加更多子域名和对应的IP列表URL
     }
     
