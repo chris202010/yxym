@@ -1,91 +1,107 @@
 import requests
-from bs4 import BeautifulSoup
 import re
-import logging
+import os
+import time
 from collections import defaultdict
-
-# 设置日志记录
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 目标URL列表
 urls = [
-     'https://ip.164746.xyz',
-    # 'https://ip.164746.xyz/ipTop.html',
-    # 'https://ip.164746.xyz/ipTop10.html',
-    # 'https://raw.githubusercontent.com/tianshipapa/cfipcaiji/refs/heads/main/ip.txt',
+    'https://api.uouin.com/cloudflare.html',
+    'https://ip.164746.xyz',
+    'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
+    'https://cf.090227.xyz', 
+    'https://stock.hostmonit.com/CloudFlareYes',
+    'https://ip.haogege.xyz/',
+    'https://ct.090227.xyz',
+    'https://cmcc.090227.xyz',    
+    'https://cf.vvhan.com',
     'https://addressesapi.090227.xyz/CloudFlareYes',
     'https://addressesapi.090227.xyz/ip.164746.xyz',
-    # 'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
-    'https://ipdb.030101.xyz/bestcfv4'
-    'https://cf.090227.xyz',
-    # 'https://api.uouin.com/cloudflare.html',
-    # 'https://www.wetest.vip/page/cloudflare/address_v4.html',
+    'https://ipdb.api.030101.xyz/?type=cfv4;proxy',
+    'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
+    'https://ipdb.api.030101.xyz/?type=bestproxy&country=true',
+    'https://www.wetest.vip/page/edgeone/address_v4.html',
+    'https://www.wetest.vip/page/cloudfront/address_v4.html',
+    'https://www.wetest.vip/page/cloudflare/address_v4.html'
 ]
 
-# 预编译正则表达式匹配IP地址
-ip_pattern = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
+# IPv4正则
+ip_pattern = r'(?:\d{1,2}|1\d{2}|2[0-4]\d|25[0-5])' \
+             r'(?:\.(?:\d{1,2}|1\d{2}|2[0-4]\d|25[0-5])){3}'
 
-# 获取IP的国家简称
-def get_ip_country(ip):
+# 已有缓存字典 {ip: "国家 省份#ISP"}
+cache = {}
+
+# 如果 ip.txt 已存在，读取缓存
+if os.path.exists("ip.txt"):
+    with open("ip.txt", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if "#" in line:
+                parts = line.split("#")
+                if len(parts) == 3:
+                    ip, location, isp = parts
+                    # 🔥 这里去掉旧编号（只保留真正的地区名）
+                    if "-" in location:
+                        location = location.split("-")[0]
+                    cache[ip] = f"{location}#{isp}"
+                elif len(parts) == 2:
+                    ip, location = parts
+                    if "-" in location:
+                        location = location.split("-")[0]
+                    cache[ip] = f"{location}#未知ISP"
+
+# 用集合去重
+ip_set = set()
+
+# 抓取网页并提取IP
+for url in urls:
     try:
-        response = requests.get(f"https://ipwhois.app/json/{ip}")
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
-        data = response.json()
+        html_text = response.text
+        ip_matches = re.findall(ip_pattern, html_text)
+        ip_set.update(ip_matches)
+    except Exception as e:
+        print(f"请求 {url} 失败: {e}")
 
-        # 检查返回数据并获取国家代码
-        if data.get('success', False):
-            return data.get('country_code', 'UNKNOWN').upper()
-        else:
-            logging.warning(f"IP {ip} 查询失败：{data.get('message', '未知错误')}")
-            return 'UNKNOWN'
-    except requests.exceptions.RequestException as e:
-        logging.error(f"获取 {ip} 国家信息失败: {e}")
-        return 'UNKNOWN'
-
-# 提取IP地址
-def extract_ips_from_url(url):
+# 查询 IP 所属国家/地区/ISP
+def get_ip_info(ip):
     try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36'
-        }
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        # 直接从网页中匹配IP地址
-        ip_matches = set()
-        elements = soup.find_all(text=True) # 查找所有文本节点
-        for element in elements:
-            ip_matches.update(ip_pattern.findall(str(element)))
-
-        if ip_matches:
-            logging.info(f"从 {url} 提取到 {len(ip_matches)} 个唯一IP")
-            return ip_matches
+        r = requests.get(f"http://ip-api.com/json/{ip}?lang=zh-CN", timeout=5)
+        data = r.json()
+        if data["status"] == "success":
+            location = f"{data.get('country', '')}".strip()
+            isp = data.get("isp", "未知ISP")
+            return f"{location}#{isp}"
         else:
-            logging.info(f"未找到IP地址：{url}")
-            return set()
-    except requests.exceptions.RequestException as e:
-        logging.error(f"请求失败 {url}: {e}")
-        return set()
+            return "未知地区#未知ISP"
+    except:
+        return "查询失败#未知ISP"
 
-# 主程序
-def main():
-    ip_addresses = set()
-    for url in urls:
-        ip_addresses.update(extract_ips_from_url(url))
+# 最终结果字典
+results = {}
 
-    if ip_addresses:
-        # 用于跟踪每个国家代码的编号
-        country_counter = defaultdict(int)
-        with open('ip.txt', 'w') as file:
-            sorted_ips = sorted(list(ip_addresses)) # 对IP进行排序以确保每次运行顺序一致
-            for ip in sorted_ips:
-                country = get_ip_country(ip)
-                country_counter[country] += 1
-                file.write(f"{ip}#{country}{country_counter[country]}\n")
-        logging.info("IP地址已保存到 ip.txt 文件中。")
+for ip in sorted(ip_set):
+    if ip in cache:
+        info = cache[ip]  # 用缓存
     else:
-        logging.info("没有提取到任何IP地址。")
+        info = get_ip_info(ip)
+        time.sleep(0.5)  # 防止API调用过快
+    results[ip] = info
 
-if __name__ == "__main__":
-    main()
+# 分组存储 {region: [(ip, isp), ...]}
+grouped = defaultdict(list)
+
+for ip, info in results.items():
+    region, isp = info.split("#")
+    grouped[region].append((ip, isp))
+
+# 输出到文件（地区后面编号 -1, -2, -3…）
+with open("ip.txt", "w", encoding="utf-8") as f:
+    for region in sorted(grouped.keys()):
+        for idx, (ip, isp) in enumerate(sorted(grouped[region]), 1):
+            f.write(f"{ip}#{region}-{idx}#{isp}\n")
+        f.write("\n")
+
+print(f"共保存 {len(results)} 个唯一IP地址，已按地区分组并在地区后加编号写入 ip.txt。")
