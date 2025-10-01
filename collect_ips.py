@@ -17,8 +17,9 @@ urls = [
     'https://addressesapi.090227.xyz/ip.164746.xyz',
     # 'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
     'https://ipdb.030101.xyz/bestcfv4'
-]    # 'https://cf.090227.xyz',
-     # 'https://api.uouin.com/cloudflare.html',
+    # 'https://cf.090227.xyz',
+    'https://api.uouin.com/cloudflare.html',
+]
 
 # 预编译正则表达式匹配IP地址
 ip_pattern = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
