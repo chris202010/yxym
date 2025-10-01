@@ -18,7 +18,8 @@ urls = [
     # 'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
     'https://ipdb.030101.xyz/bestcfv4'
     # 'https://cf.090227.xyz',
-    'https://api.uouin.com/cloudflare.html',
+    # 'https://api.uouin.com/cloudflare.html',
+    'https://www.wetest.vip/page/cloudflare/address_v4.html',
 ]
 
 # 预编译正则表达式匹配IP地址
