@@ -53,8 +53,8 @@
 172.64.34.21#加拿大-41#Cloudflare, Inc.
 172.64.79.23#加拿大-42#Cloudflare, Inc.
 172.67.131.37#加拿大-43#Cloudflare, Inc.
-172.67.212.41#加拿大-44#Cloudflare, Inc.
-172.67.73.23#加拿大-45#Cloudflare, Inc.
+172.67.178.42#加拿大-44#Cloudflare, Inc.
+172.67.212.41#加拿大-45#Cloudflare, Inc.
 198.41.209.20#加拿大-46#Cloudflare, Inc.
 
 155.248.248.20#印度-1#Oracle Corporation
