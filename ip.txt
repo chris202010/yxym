@@ -62,9 +62,9 @@
 172.64.82.11#加拿大-62#Cloudflare, Inc.
 172.64.85.49#加拿大-63#Cloudflare, Inc.
 172.64.91.69#加拿大-64#Cloudflare, Inc.
-172.67.143.94#加拿大-65#Cloudflare, Inc.
+172.67.107.17#加拿大-65#Cloudflare, Inc.
 172.67.147.13#加拿大-66#Cloudflare, Inc.
-172.67.178.42#加拿大-67#Cloudflare, Inc.
+172.67.181.71#加拿大-67#Cloudflare, Inc.
 172.67.75.12#加拿大-68#Cloudflare, Inc.
 172.67.88.23#加拿大-69#Cloudflare, Inc.
 173.245.49.19#加拿大-70#Cloudflare, Inc.
@@ -78,33 +78,22 @@
 198.41.209.20#加拿大-78#Cloudflare, Inc.
 198.41.223.44#加拿大-79#Cloudflare, Inc.
 
-13.33.100.11#新加坡-1#Amazon.com, Inc.
-13.35.11.11#新加坡-2#Amazon.com, Inc.
-43.159.95.78#新加坡-3#ACE
-43.159.98.12#新加坡-4#Aceville Pte.ltd.
-43.174.224.16#新加坡-5#Aceville Pte.ltd.
-43.174.226.23#新加坡-6#ACE
-43.174.242.12#新加坡-7#ACE
-43.174.244.13#新加坡-8#ACE
-43.174.244.17#新加坡-9#ACE
-43.174.244.19#新加坡-10#ACE
-43.174.245.11#新加坡-11#ACE
-
-18.173.174.21#日本-1#Amazon.com, Inc.
-18.65.100.12#日本-2#Amazon Technologies Inc.
+43.159.95.78#新加坡-1#ACE
+43.159.98.12#新加坡-2#Aceville Pte.ltd.
+43.174.224.16#新加坡-3#Aceville Pte.ltd.
+43.174.226.23#新加坡-4#ACE
+43.174.242.12#新加坡-5#ACE
+43.174.244.13#新加坡-6#ACE
+43.174.244.17#新加坡-7#ACE
+43.174.244.19#新加坡-8#ACE
+43.174.245.11#新加坡-9#ACE
 
 108.162.198.14#美国-1#Cloudflare, Inc.
 108.162.198.15#美国-2#Cloudflare, Inc.
 108.162.198.18#美国-3#Cloudflare, Inc.
-13.224.41.20#美国-4#Amazon.com, Inc.
-13.224.41.85#美国-5#Amazon.com, Inc.
-13.227.21.23#美国-6#Amazon.com, Inc.
-162.159.248.17#美国-7#Cloudflare, Inc.
-162.159.44.20#美国-8#Cloudflare, Inc.
-162.159.45.18#美国-9#Cloudflare, Inc.
-18.238.100.88#美国-10#Amazon Technologies Inc.
-216.137.39.19#美国-11#Amazon.com, Inc.
+162.159.248.17#美国-4#Cloudflare, Inc.
+162.159.44.20#美国-5#Cloudflare, Inc.
+162.159.45.18#美国-6#Cloudflare, Inc.
 
-13.35.185.19#香港-1#Amazon.com, Inc.
-43.175.115.19#香港-2#Aceville Pte.ltd.
+43.175.115.19#香港-1#Aceville Pte.ltd.
 
