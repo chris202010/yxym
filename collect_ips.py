@@ -10,7 +10,7 @@ urls = [
     'https://ip.164746.xyz',
     'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
     'https://cf.090227.xyz', 
-    # 'https://stock.hostmonit.com/CloudFlareYes',
+    'https://stock.hostmonit.com/CloudFlareYes',
     # 'https://ip.haogege.xyz/',
     'https://ct.090227.xyz',
     'https://cmcc.090227.xyz',    
@@ -22,7 +22,7 @@ urls = [
     # 'https://ipdb.api.030101.xyz/?type=bestproxy&country=true',
     # 'https://www.wetest.vip/page/edgeone/address_v4.html',
     # 'https://www.wetest.vip/page/cloudfront/address_v4.html',
-    # 'https://www.wetest.vip/page/cloudflare/address_v4.html'
+    'https://www.wetest.vip/page/cloudflare/address_v4.html'
 ]
 
 # IPv4正则
