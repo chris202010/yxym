@@ -11,7 +11,7 @@ urls = [
     'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
     'https://cf.090227.xyz', 
     # 'https://stock.hostmonit.com/CloudFlareYes',
-    'https://ip.haogege.xyz/',
+    # 'https://ip.haogege.xyz/',
     'https://ct.090227.xyz',
     'https://cmcc.090227.xyz',    
     # 'https://cf.vvhan.com',
