@@ -17,12 +17,12 @@ urls = [
     # 'https://cf.vvhan.com',
     'https://addressesapi.090227.xyz/CloudFlareYes',
     'https://addressesapi.090227.xyz/ip.164746.xyz',
-    'https://ipdb.api.030101.xyz/?type=cfv4;proxy',
-    'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
+    # 'https://ipdb.api.030101.xyz/?type=cfv4;proxy',
+    # 'https://ipdb.api.030101.xyz/?type=bestcf&country=true',
     # 'https://ipdb.api.030101.xyz/?type=bestproxy&country=true',
-    # 'https://www.wetest.vip/page/edgeone/address_v4.html',
-    # 'https://www.wetest.vip/page/cloudfront/address_v4.html',
-    # 'https://www.wetest.vip/page/cloudflare/address_v4.html'
+    'https://www.wetest.vip/page/edgeone/address_v4.html',
+    'https://www.wetest.vip/page/cloudfront/address_v4.html',
+    'https://www.wetest.vip/page/cloudflare/address_v4.html'
 ]
 
 # IPv4正则
