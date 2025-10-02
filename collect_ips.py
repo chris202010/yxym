@@ -14,7 +14,7 @@ urls = [
     'https://ip.haogege.xyz/',
     'https://ct.090227.xyz',
     'https://cmcc.090227.xyz',    
-    'https://cf.vvhan.com',
+    # 'https://cf.vvhan.com',
     'https://addressesapi.090227.xyz/CloudFlareYes',
     'https://addressesapi.090227.xyz/ip.164746.xyz',
     'https://ipdb.api.030101.xyz/?type=cfv4;proxy',
