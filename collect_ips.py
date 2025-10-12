@@ -98,10 +98,17 @@ for ip, info in results.items():
     grouped[region].append((ip, isp))
 
 # 输出到文件（地区后面编号 -1, -2, -3…）
-with open("ip.txt", "w", encoding="utf-8") as f:
-    for region in sorted(grouped.keys()):
-        for idx, (ip, isp) in enumerate(sorted(grouped[region]), 1):
-            f.write(f"{ip}#{region}-{idx}#{isp}\n")
-        f.write("\n")
+# with open("ip.txt", "w", encoding="utf-8") as f:
+#     for region in sorted(grouped.keys()):
+#        for idx, (ip, isp) in enumerate(sorted(grouped[region]), 1):
+#             f.write(f"{ip}#{region}-{idx}#{isp}\n")
+#         f.write("\n")
 
-print(f"共保存 {len(results)} 个唯一IP地址，已按地区分组并在地区后加编号写入 ip.txt。")
+# print(f"共保存 {len(results)} 个唯一IP地址，已按地区分组并在地区后加编号写入 ip.txt。")
+
+# 只输出IP到文件
+with open("ip.txt", "w", encoding="utf-8") as f:
+    for ip in sorted(results.keys()):
+        f.write(f"{ip}\n")
+
+print(f"共保存 {len(results)} 个唯一IP地址，已写入 ip.txt（仅IP）。")
