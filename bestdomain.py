@@ -78,7 +78,7 @@ if __name__ == "__main__":
     subdomain_ip_mapping = {
         'bestcf': 'https://ipdb.030101.xyz/api/bestcf.txt',
         'api': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/ip.txt',
-        'proxyip': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/proxyip.txt',
+        'proxyip': 'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/bestproxy.txt',
     }
     
     try:
