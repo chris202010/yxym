@@ -62,6 +62,7 @@ if __name__ == "__main__":
     subdomain_ip_mapping = {
         'bestcf': 'https://ipdb.030101.xyz/api/bestcf.txt',  # #域名一，bestcf.域名.com
         'api': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/ip.txt', #域名二，api.域名.com
+        'proxyip': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/proxyip.txt', #域名二，proxyip.域名.com
         # 添加更多子域名和对应的IP列表URL
     }
     
