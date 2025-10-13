@@ -24,7 +24,7 @@ domains = [
 ]
 
 # 远程 IP 列表 URL
-remote_url = "https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestProxy/bestproxy.txt"
+remote_url = "https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/bestproxy.txt"
 
 # 检查 proxyip.txt 文件是否存在，如果存在则删除它
 if os.path.exists('proxyip.txt'):
