@@ -140,9 +140,9 @@ def main():
     domains = [d.strip() for d in args.domains.split(",") if d.strip()]
 
     subdomain_ip_mapping = {
-        'bestcf': 'https://ipdb.030101.xyz/api/bestcf.txt',
+        'bestcf': 'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv4.txt',
         'api': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/ip.txt',
-        'proxyip': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/proxyip.txt',
+        'proxyip': 'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestProxy/bestproxy.txt',
     }
 
     # 注意：这里的输出现在更准确了，'proxied' 是指 DNS 记录的云朵状态。
