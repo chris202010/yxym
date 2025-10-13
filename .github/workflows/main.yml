@@ -31,5 +31,5 @@ jobs:
         CLEAN_TOKEN=$(echo "${{ secrets.CF_API_TOKEN }}" | tr -d '\r\n')
         
         # 2. 将清理后的 Token 作为环境变量传递给 Python 脚本，并执行
-        CF_API_TOKEN="${CLEAN_TOKEN}" python bestdomain.py --domains 38806827.xyz --proxied true
+        CF_API_TOKEN="${CLEAN_TOKEN}" python bestdomain.py --domains 38806827.xyz
       # *** 修改结束 ***
