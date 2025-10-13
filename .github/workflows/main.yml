@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '*/30 * * * *'  # 每隔三十分钟运行一次
   workflow_dispatch:  # 手动触发
-  # push: # 如果你想提交时也触发，可以取消注释
 
 jobs:
   update-dns:
@@ -25,7 +24,12 @@ jobs:
         pip install requests
 
     - name: Run update script
-      env:
-        CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      # *** 核心修改部分 ***
       run: |
-          python bestdomain.py --domains 38806827.xyz --proxied true
+        # 1. 清理 Secret 中的任何换行符或回车符。
+        #    这是解决 "Invalid leading whitespace, reserved character(s), or return character(s)" 错误的关键。
+        CLEAN_TOKEN=$(echo "${{ secrets.CF_API_TOKEN }}" | tr -d '\r\n')
+        
+        # 2. 将清理后的 Token 作为环境变量传递给 Python 脚本，并执行
+        CF_API_TOKEN="${CLEAN_TOKEN}" python bestdomain.py --domains 38806827.xyz --proxied true
+      # *** 修改结束 ***
