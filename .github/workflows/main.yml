@@ -28,5 +28,4 @@ jobs:
       env:
         CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
       run: |
-        run: |
           python bestdomain.py --domains 38806827.xyz --proxied true
