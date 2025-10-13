@@ -7,9 +7,14 @@ import argparse
 # 工具函数
 # -------------------------------
 
+# 统一的代理禁用设置，确保requests不使用系统环境变量中的代理
+NO_PROXIES = {'http': None, 'https': None}
+
+
 def get_ip_list(url):
     """获取 IP 列表（限制 20 条）"""
-    response = requests.get(url)
+    # 添加 proxies=NO_PROXIES 忽略系统代理
+    response = requests.get(url, proxies=NO_PROXIES) 
     response.raise_for_status()
     ip_list = response.text.strip().split('\n')
     limited_list = ip_list[:20]
@@ -25,7 +30,8 @@ def get_cloudflare_zone(api_token, target_domain):
         'Content-Type': 'application/json',
     }
     params = {"name": target_domain}
-    response = requests.get('https://api.cloudflare.com/client/v4/zones', headers=headers, params=params)
+    # 添加 proxies=NO_PROXIES 忽略系统代理
+    response = requests.get('https://api.cloudflare.com/client/v4/zones', headers=headers, params=params, proxies=NO_PROXIES) 
 
     if response.status_code == 403:
         raise Exception("❌ 403 Forbidden：请检查 CF_API_TOKEN 是否有效并具有该域名的 Zone 权限。")
@@ -46,18 +52,22 @@ def delete_existing_dns_records(api_token, zone_id, subdomain, domain):
     }
     record_name = domain if subdomain == '@' else f'{subdomain}.{domain}'
     while True:
+        # 添加 proxies=NO_PROXIES 忽略系统代理
         response = requests.get(
             f'https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records?type=A&name={record_name}',
-            headers=headers
+            headers=headers,
+            proxies=NO_PROXIES  
         )
         response.raise_for_status()
         records = response.json().get('result', [])
         if not records:
             break
         for record in records:
+            # 添加 proxies=NO_PROXIES 忽略系统代理
             delete_response = requests.delete(
                 f'https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/{record["id"]}',
-                headers=headers
+                headers=headers,
+                proxies=NO_PROXIES
             )
             delete_response.raise_for_status()
             print(f"🗑 删除 A 记录 {record_name} → {record['id']}")
@@ -73,9 +83,11 @@ def update_cloudflare_dns(ip_list, api_token, zone_id, subdomain, domain, proxie
 
     # 获取当前已存在的记录，避免重复
     existing_ips = set()
+    # 添加 proxies=NO_PROXIES 忽略系统代理
     response = requests.get(
         f'https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records?type=A&name={record_name}',
-        headers=headers
+        headers=headers,
+        proxies=NO_PROXIES 
     )
     if response.status_code == 200:
         for rec in response.json().get('result', []):
@@ -93,10 +105,12 @@ def update_cloudflare_dns(ip_list, api_token, zone_id, subdomain, domain, proxie
             "ttl": 1,
             "proxied": proxied
         }
+        # 添加 proxies=NO_PROXIES 忽略系统代理
         response = requests.post(
             f'https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records',
             json=data,
-            headers=headers
+            headers=headers,
+            proxies=NO_PROXIES
         )
         if response.status_code == 200 and response.json().get("success", False):
             print(f"✅ 添加 {record_name} → {ip} (proxied={proxied})")
@@ -121,7 +135,8 @@ def main():
         print("❌ 未提供 Cloudflare Token，请使用 --token 或设置环境变量 CF_API_TOKEN")
         sys.exit(1)
 
-    proxied = args.proxied.lower() == "true"
+    # 这里的 proxied 变量只控制 DNS 记录的云朵状态，不影响网络请求本身。
+    proxied = args.proxied.lower() == "true" 
     domains = [d.strip() for d in args.domains.split(",") if d.strip()]
 
     subdomain_ip_mapping = {
@@ -130,7 +145,8 @@ def main():
         'proxyip': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/proxyip.txt',
     }
 
-    print(f"🔧 使用代理: {proxied}")
+    # 注意：这里的输出现在更准确了，'proxied' 是指 DNS 记录的云朵状态。
+    print(f"🔧 DNS 记录是否开启代理（橙色云朵）: {proxied}")
     print(f"🌍 目标域名: {', '.join(domains)}")
 
     try:
