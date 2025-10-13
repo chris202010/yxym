@@ -22,7 +22,8 @@ urls = [
     # 'https://ipdb.api.030101.xyz/?type=bestproxy&country=true',
     # 'https://www.wetest.vip/page/edgeone/address_v4.html',
     # 'https://www.wetest.vip/page/cloudfront/address_v4.html',
-    'https://www.wetest.vip/page/cloudflare/address_v4.html'
+    'https://www.wetest.vip/page/cloudflare/address_v4.html',
+    'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv4.txt'
 ]
 
 # IPv4正则
