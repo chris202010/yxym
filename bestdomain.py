@@ -127,7 +127,7 @@ def main():
     subdomain_ip_mapping = {
         'bestcf': 'https://ipdb.030101.xyz/api/bestcf.txt',
         'api': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/ip.txt',
-        'proxyip': 'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/bestproxy.txt',
+        'proxyip': 'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/proxyip.txt',
     }
 
     print(f"🔧 使用代理: {proxied}")
