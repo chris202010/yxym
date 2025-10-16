@@ -2,14 +2,14 @@ import socket
 import os
 import logging
 from time import sleep
-# 引入用于网络请求的库
 import urllib.request
 import urllib.error
 
-# 设置日志记录
+# ==========================
+# 基本配置
+# ==========================
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# 目标域名列表 (原始数据)
 domains = [
     'proxyip.fxxk.dedyn.io',
     'proxyip.us.fxxk.dedyn.io',
@@ -20,67 +20,89 @@ domains = [
     'proxyip.oracle.fxxk.dedyn.io',
     'proxyip.digitalocean.fxxk.dedyn.io',
     'proxyip.oracle.cmliussss.net'
-    # 你可以添加更多域名
 ]
 
-# 远程 IP 列表 URL
+DEFAULT_PORT = 443
 remote_url = "https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/bestproxy.txt"
+output_file = "proxyip.txt"
 
-# 检查 proxyip.txt 文件是否存在，如果存在则删除它
-if os.path.exists('proxyip.txt'):
-    os.remove('proxyip.txt')
+# ==========================
+# 工具函数
+# ==========================
+
+def is_port_open(ip: str, port: int, timeout: float = 0.5) -> bool:
+    """检测端口是否开放"""
+    try:
+        with socket.create_connection((ip, port), timeout=timeout):
+            return True
+    except Exception:
+        return False
+
+# ==========================
+# 主逻辑
+# ==========================
+
+# 删除旧文件
+if os.path.exists(output_file):
+    os.remove(output_file)
 
 logging.info("--- 开始进行域名解析 ---")
 
-# 创建一个文件来存储解析得到的 IP 地址
-with open('proxyip.txt', 'a', encoding='utf-8') as file:
-    # 1. 解析硬编码的域名列表
+ip_set = set()  # 用于去重
+
+with open(output_file, 'a', encoding='utf-8') as file:
+
+    # 1️⃣ 域名解析部分
     for domain in domains:
         try:
-            # 使用 socket 获取 IP 地址
             ip_address = socket.gethostbyname(domain)
+            ip_port = f"{ip_address}:{DEFAULT_PORT}"
 
-            # 只写入 IP，不带国家代码
-            file.write(f"{ip_address}\n")
-            logging.info(f"域名解析: {domain} -> {ip_address}")
-
+            if ip_port not in ip_set:
+                # 检测端口是否可用
+                if is_port_open(ip_address, DEFAULT_PORT):
+                    file.write(f"{ip_port}\n")
+                    ip_set.add(ip_port)
+                    logging.info(f"✅ 域名解析成功: {domain} -> {ip_port} (端口可用)")
+                else:
+                    logging.warning(f"⚠️ 域名解析成功但端口不可用: {domain} -> {ip_port}")
         except socket.gaierror as e:
             logging.error(f"无法解析域名 {domain}: {e}")
-            continue
-
-        # 防止查询太快（可选）
         sleep(1)
 
-    logging.info("--- 域名列表解析完成 ---")
+    logging.info("--- 域名解析完成 ---")
     logging.info(f"--- 开始采集远程 URL 数据: {remote_url} ---")
 
-    # 2. 从远程 URL 获取数据并写入文件
+    # 2️⃣ 远程 IP 列表部分
     try:
-        # 使用 urllib.request.urlopen 打开 URL
         with urllib.request.urlopen(remote_url, timeout=10) as response:
-            # 读取所有内容并按行分割
             remote_data = response.read().decode('utf-8')
             ip_lines = remote_data.strip().split('\n')
 
             logging.info(f"成功获取到 {len(ip_lines)} 条远程数据。")
 
-            # 遍历每一行数据
             for line in ip_lines:
-                # 假设 remote_url 中的文件每行就是一个 IP 地址或 IP:PORT
-                # 我们只取 IP 地址部分（如果存在端口）
-                ip_only = line.split(':')[0].strip()
+                line = line.strip()
+                if not line:
+                    continue
 
-                if ip_only: # 确保不是空行
-                    # 简单验证是否是有效的 IP 地址 (可选，这里只简单写入)
-                    # 为了和原始代码保持一致，这里直接写入。
-                    file.write(f"{ip_only}\n")
-                    logging.debug(f"远程 IP: {ip_only}") # 使用 debug 级别避免日志过多
-                
+                # 拆分 IP 和端口
+                parts = line.split(':')
+                ip = parts[0]
+                port = int(parts[1]) if len(parts) > 1 else DEFAULT_PORT
+                ip_port = f"{ip}:{port}"
+
+                if ip_port not in ip_set:
+                    if is_port_open(ip, port):
+                        file.write(f"{ip_port}\n")
+                        ip_set.add(ip_port)
+                        logging.debug(f"✅ 添加远程 IP: {ip_port}")
+                    else:
+                        logging.debug(f"⛔ 跳过端口不可用: {ip_port}")
+
     except urllib.error.URLError as e:
         logging.error(f"无法从远程 URL 获取数据 {remote_url}: {e.reason}")
     except Exception as e:
         logging.error(f"处理远程数据时发生未知错误: {e}")
 
-    logging.info("--- 远程数据采集完成 ---")
-
-logging.info("✅ 域名解析和远程数据采集完成，所有 IP 已保存到 proxyip.txt（仅 IP）。")
+logging.info(f"✅ 完成！共收集 {len(ip_set)} 个有效 IP:端口，已保存到 {output_file}")
