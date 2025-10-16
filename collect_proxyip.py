@@ -20,7 +20,8 @@ domains = [
     'proxyip.oracle.fxxk.dedyn.io',
     'proxyip.digitalocean.fxxk.dedyn.io',
     'proxyip.oracle.cmliussss.net',
-    'tp50000.kr.proxyip.fgfw.eu.org:50000'  # 含端口的域名
+    'tp50000.kr.proxyip.fgfw.eu.org:50000'  # 含端口的域名,
+    'kr.tp50000.netlib.re:50000'
 ]
 
 DEFAULT_PORT = 443
