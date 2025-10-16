@@ -20,7 +20,7 @@ domains = [
     'proxyip.oracle.fxxk.dedyn.io',
     'proxyip.digitalocean.fxxk.dedyn.io',
     'proxyip.oracle.cmliussss.net',
-    'tp50000.kr.proxyip.fgfw.eu.org:50000'
+    'tp50000.kr.proxyip.fgfw.eu.org:50000'  # 含端口的域名
 ]
 
 DEFAULT_PORT = 443
@@ -56,19 +56,34 @@ with open(output_file, 'a', encoding='utf-8') as file:
     # 1️⃣ 域名解析部分
     for domain in domains:
         try:
-            ip_address = socket.gethostbyname(domain)
-            ip_port = f"{ip_address}:{DEFAULT_PORT}"
+            # ---- 修复重点：分离域名和端口 ----
+            if ':' in domain:
+                domain_name, domain_port = domain.split(':', 1)
+                try:
+                    domain_port = int(domain_port)
+                except ValueError:
+                    domain_port = DEFAULT_PORT
+            else:
+                domain_name = domain
+                domain_port = DEFAULT_PORT
+
+            ip_address = socket.gethostbyname(domain_name)
+            ip_port = f"{ip_address}:{domain_port}"
 
             if ip_port not in ip_set:
                 # 检测端口是否可用
-                if is_port_open(ip_address, DEFAULT_PORT):
+                if is_port_open(ip_address, domain_port):
                     file.write(f"{ip_port}\n")
                     ip_set.add(ip_port)
-                    logging.info(f"✅ 域名解析成功: {domain} -> {ip_port} (端口可用)")
+                    logging.info(f"✅ 域名解析成功: {domain_name} -> {ip_port} (端口可用)")
                 else:
-                    logging.warning(f"⚠️ 域名解析成功但端口不可用: {domain} -> {ip_port}")
+                    logging.warning(f"⚠️ 域名解析成功但端口不可用: {domain_name} -> {ip_port}")
+
         except socket.gaierror as e:
             logging.error(f"无法解析域名 {domain}: {e}")
+        except Exception as e:
+            logging.error(f"处理域名 {domain} 时出错: {e}")
+
         sleep(1)
 
     logging.info("--- 域名解析完成 ---")
