@@ -19,7 +19,8 @@ domains = [
     'proxyip.aliyun.fxxk.dedyn.io',
     'proxyip.oracle.fxxk.dedyn.io',
     'proxyip.digitalocean.fxxk.dedyn.io',
-    'proxyip.oracle.cmliussss.net'
+    'proxyip.oracle.cmliussss.net',
+    'tp50000.kr.proxyip.fgfw.eu.org:50000'
 ]
 
 DEFAULT_PORT = 443
