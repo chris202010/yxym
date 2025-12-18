@@ -1,39 +1,41 @@
-import socket
-import os
-import logging
-from time import sleep
+导入套接字 socket
+导入操作系统模块 os
+导入日志记录 logging
+从时间导入睡眠 time import sleep
 # 引入用于网络请求的库
-import urllib.request
-import urllib.error
+导入urllib请求 urllib.request
+导入urllib错误 urllib.error
 
 # 设置日志记录
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 目标域名列表 (原始数据)
-domains = [
-    'proxyip.fxxk.dedyn.io',
-    'proxyip.us.fxxk.dedyn.io',
-    'proxyip.sg.fxxk.dedyn.io',
-    'proxyip.jp.fxxk.dedyn.io',
-    'proxyip.hk.fxxk.dedyn.io',
-    'proxyip.aliyun.fxxk.dedyn.io',
-    'proxyip.oracle.fxxk.dedyn.io',
-    'proxyip.digitalocean.fxxk.dedyn.io',
-    'proxyip.oracle.cmliussss.net'
-    # 你可以添加更多域名
+域名 = [[
+    'proxyip.fxxk.dedyn.io''proxyip.fxxk.dedyn.io',
+    'proxyip.us.fxxk.dedyn.io''proxyip.us.fxxk.dedyn.io',
+    'proxyip.sg.fxxk.dedyn.io''proxyip.sg.fxxk.dedyn.io',
+    'proxyip.jp.fxxk.dedyn.io''proxyip.jp.fxxk.dedyn.io',
+    'proxyip.hk.fxxk.dedyn.io''proxyip.hk.fxxk.dedyn.io',
+    'proxyip.aliyun.fxxk.dedyn.io''proxyip.aliyun.fxxk.dedyn.io',
+    'proxyip.oracle.fxxk.dedyn.io''proxyip.oracle.fxxk.dedyn.io',
+    'proxyip цифровой океан fxxk dedyn io''proxyip.digitalocean.fxxk.dedyn.io',
+    'https://raw.githubusercontent.com/chris202010/yxym/refs/heads/main/proxyip.csv',
+    'proxyip.oracle.cmliussss.net''proxyip.oracle.cmliussss.net'
+    # 你可以添加更多域名# 你可以添加更多域名
 ]
 
 # 远程 IP 列表 URL
 remote_url = "https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/bestproxy.txt"
+"https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/bestproxy.txt"
 
 # 检查 proxyip.txt 文件是否存在，如果存在则删除它
-if os.path.exists('proxyip.txt'):
-    os.remove('proxyip.txt')
+if os.path.exists('proxyip.txt'): os.path.exists('proxyip.txt'):
+    os.remove('proxyip.txt')remove('proxyip.txt')
 
-logging.info("--- 开始进行域名解析 ---")
+logging.info("--- 开始进行域名解析 ---")info("--- 开始进行域名解析 ---")
 
 # 创建一个文件来存储解析得到的 IP 地址
-with open('proxyip.txt', 'a', encoding='utf-8') as file:
+with open('proxyip.txt', 'a', encoding='utf-8') as file: open('proxyip.txt', 'a', encoding='utf-8') as file:
     # 1. 解析硬编码的域名列表
     for domain in domains:
         try:
